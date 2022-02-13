@@ -108,7 +108,7 @@ RSpec.describe 'the application show' do
     expect(page).to have_content("Interested in adopting:")
   end
   
-  it 'can take partial names for pet search' do 
+  it 'partial names for pet search' do 
     application = Application.create(name: "Steve Rogers", street_address: "990 Logan St", city: "Denver", state: "CO", zip_code: "80203")    
     shelter = Shelter.create(name: 'Mystery Building', city: 'Irvine CA', foster_program: false, rank: 9)
     pet_1 = Pet.create(name: 'Scooby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
@@ -133,5 +133,33 @@ RSpec.describe 'the application show' do
     expect(page).to have_content(pet_4.name)
     expect(page).to have_content("Scoob")
     expect(page).to have_content(pet_5.name)
+  end
+  
+  it 'case insensitive matches for pet search' do 
+    application = Application.create(name: "Steve Rogers", street_address: "990 Logan St", city: "Denver", state: "CO", zip_code: "80203")    
+    shelter = Shelter.create(name: 'Mystery Building', city: 'Irvine CA', foster_program: false, rank: 9)
+    pet_1 = Pet.create(name: 'SCOoby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
+    pet_3 = Pet.create(name: 'ScOOba Steve', age: 1, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
+    pet_4 = Pet.create(name: 'scooby doo', age: 3, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
+    pet_5 = Pet.create(name: 'Scoob', age: 5, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
+    pet_2 = Pet.create(adoptable: true, age: 4, breed: 'Husky', name: 'Bruce', shelter_id: shelter.id)
+    ApplicationPet.create(pet: pet_2, application: application)
+    
+    visit "/applications/#{application.id}"
+    
+    expect(page).to have_content("Add a Pet to this Application")
+    fill_in 'Add a Pet to this Application', with: "scoob"
+    click_button("Search")
+    expect(current_path).to eq("/applications/#{application.id}")
+
+    expect(page).to have_content("SCOoby")
+    expect(page).to have_content(pet_1.name)
+    expect(page).to have_content("ScOOba Steve")
+    expect(page).to have_content(pet_3.name)
+    expect(page).to have_content("scooby doo")
+    expect(page).to have_content(pet_4.name)
+    expect(page).to have_content("Scoob")
+    expect(page).to have_content(pet_5.name)
+    
   end
 end 
