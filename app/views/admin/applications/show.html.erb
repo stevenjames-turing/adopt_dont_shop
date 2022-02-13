@@ -1,0 +1,25 @@
+<h1>Name: <%=  @application.name %></h1>
+<h3>Street Address: <%= @application.street_address  %></h3>
+<h3>City: <%= @application.city  %></h3>
+<h3>State: <%= @application.state  %></h3>
+<h3>Zip Code: <%= @application.zip_code  %></h3>
+<% if @application.description != "Incomplete" %>
+   <h3>Why they'd make a great home: <%= @application.description  %></h3>
+<% end %>
+<h3>Status: <%= @application.status  %></h3>
+
+
+<% if @application.has_pets? %>
+   <h3>Interested in adopting:</h3>
+   <% @application.pets.each do |pet| %>
+    <%= link_to pet.name, "/pets/#{pet.id}" %> 
+        <% if @application.status == "Pending" %>
+            <% if pet.adoptable == true  %>
+                <%= button_to "Approve #{pet.name}", "/pets/#{pet.id}", method: :patch, params: {pet_id: pet.id, application_id: @application.id, changes: "Approved"}%>
+            <% elsif %>
+                <%= "#{pet.name} Approved" %>
+            <% end %>
+        <% end %>
+     <br>
+   <% end %>
+<% end %>
