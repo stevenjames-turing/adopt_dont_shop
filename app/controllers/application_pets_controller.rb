@@ -6,4 +6,10 @@ class ApplicationPetsController < ApplicationController
         ApplicationPet.create(application: application, pet: pet)
         redirect_to "/applications/#{application.id}"
     end
+    
+    def update 
+        application_pet = ApplicationPet.find_record(params[:application_id], params[:pet_id])
+        application_pet.update({status: params[:changes]})
+        redirect_to "/admin/applications/#{params[:application_id]}"
+    end
 end

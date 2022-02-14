@@ -13,11 +13,15 @@
    <h3>Interested in adopting:</h3>
    <% @application.pets.each do |pet| %>
     <%= link_to pet.name, "/pets/#{pet.id}" %> 
+        <% application_pet = ApplicationPet.find_record(@application.id, pet.id) %>
         <% if @application.status == "Pending" %>
-            <% if pet.adoptable == true  %>
-                <%= button_to "Approve #{pet.name}", "/pets/#{pet.id}", method: :patch, params: {pet_id: pet.id, application_id: @application.id, changes: "Approved"}%>
-            <% elsif %>
+            <% if application_pet[0].status == "Pending"  %>
+                <%= button_to "Approve #{pet.name}", "/applications/applicationpets/update", method: :patch, params: {pet_id: pet.id, application_id: @application.id, changes: "Approved"}%>
+                <%= button_to "Reject #{pet.name}", "/applications/applicationpets/update", method: :patch, params: {pet_id: pet.id, application_id: @application.id, changes: "Rejected"}%>
+            <% elsif  application_pet[0].status == "Approved"%>
                 <%= "#{pet.name} Approved" %>
+            <% elsif  application_pet[0].status == "Rejected"%>
+                <%= "#{pet.name} Rejected" %>
             <% end %>
         <% end %>
      <br>
