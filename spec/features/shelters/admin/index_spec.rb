@@ -34,9 +34,6 @@ it 'shelters with pending applications' do
     
     visit "/admin/shelters"
 
-
-    
-    
     expect(page).to have_content("Shelter's with Pending Applications")
     
     expect(page).to have_content(shelter_1.name, count: 4)
