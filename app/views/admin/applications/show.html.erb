@@ -16,8 +16,8 @@
         <% application_pet = ApplicationPet.find_record(@application.id, pet.id) %>
         <% if @application.status == "Pending" %>
             <% if application_pet[0].status == "Pending"  %>
-                <%= button_to "Approve #{pet.name}", "/applications/applicationpets/update", method: :patch, params: {pet_id: pet.id, application_id: @application.id, changes: "Approved"}%>
-                <%= button_to "Reject #{pet.name}", "/applications/applicationpets/update", method: :patch, params: {pet_id: pet.id, application_id: @application.id, changes: "Rejected"}%>
+                <%= button_to "Approve #{pet.name}", "/applications/applicationpets/update", method: :patch, params: {pet_id: pet.id, application_id: @application.id, status_change: "Approved"}%>
+                <%= button_to "Reject #{pet.name}", "/applications/applicationpets/update", method: :patch, params: {pet_id: pet.id, application_id: @application.id, status_change: "Rejected"}%>
             <% elsif  application_pet[0].status == "Approved"%>
                 <%= "#{pet.name} Approved" %>
             <% elsif  application_pet[0].status == "Rejected"%>

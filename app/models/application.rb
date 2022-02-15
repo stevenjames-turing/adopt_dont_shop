@@ -17,4 +17,13 @@ class Application < ApplicationRecord
     def has_pets?
         pets.count > 0
     end
+
+    def check_status
+        app_statuses = application_pets.map { |app| app.status }
+        if (!app_statuses.include?("Pending")) && (!app_statuses.include?("Rejected"))
+            update_attribute(:status, "Approved")
+        elsif (app_statuses.include?("Rejected")) && (!app_statuses.include?("Pending"))
+            update_attribute(:status, "Rejected")
+        end
+    end
 end
