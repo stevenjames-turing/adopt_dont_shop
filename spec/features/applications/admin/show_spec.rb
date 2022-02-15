@@ -65,4 +65,41 @@ RSpec.describe 'the ADMIN application show' do
         expect(page).to have_button("Approve Scooby")
         expect(page).to have_button("Reject Scooby")
     end
+    
+    it 'approves an application if all pet on app are approved' do 
+        application_1 = Application.create(name: "Steve Rogers", street_address: "990 Logan St", city: "Denver", state: "CO", zip_code: "80203", status: "Pending")    
+        shelter = Shelter.create(name: 'Mystery Building', city: 'Irvine CA', foster_program: false, rank: 9)
+        pet_1 = Pet.create(name: 'Scooby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
+        pet_2 = Pet.create(name: 'Bruce', adoptable: true, age: 4, breed: 'Husky', shelter_id: shelter.id)
+        app_pet_2 = ApplicationPet.create(pet: pet_1, application: application_1)
+        app_pet_1 = ApplicationPet.create(pet: pet_2, application: application_1)
+        
+        visit "/admin/applications/#{application_1.id}"
+        click_button("Approve Scooby")
+        click_button("Approve Bruce")
+        
+        expect(current_path).to eq("/admin/applications/#{application_1.id}")
+
+        expect(page).to have_content("Status: Approved")
+        expect(page).to_not have_content("Status: Rejected")
+    end
+    
+    it 'rejects an application if any pets on app are rejected' do 
+        application_1 = Application.create(name: "Steve Rogers", street_address: "990 Logan St", city: "Denver", state: "CO", zip_code: "80203", status: "Pending")    
+        shelter = Shelter.create(name: 'Mystery Building', city: 'Irvine CA', foster_program: false, rank: 9)
+        pet_1 = Pet.create(name: 'Scooby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
+        pet_2 = Pet.create(name: 'Bruce', adoptable: true, age: 4, breed: 'Husky', shelter_id: shelter.id)
+        app_pet_2 = ApplicationPet.create(pet: pet_1, application: application_1)
+        app_pet_1 = ApplicationPet.create(pet: pet_2, application: application_1)
+        
+        visit "/admin/applications/#{application_1.id}"
+        
+        click_button("Reject Scooby")
+        click_button("Approve Bruce")
+        
+        expect(current_path).to eq("/admin/applications/#{application_1.id}")
+        
+        expect(page).to have_content("Status: Rejected")
+        expect(page).to_not have_content("Status: Approved")
+    end
 end
