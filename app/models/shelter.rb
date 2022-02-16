@@ -27,8 +27,7 @@ class Shelter < ApplicationRecord
     #             JOIN application_pets ON pets.id = application_pets.pet_id
     #             JOIN applications ON application_id = applications.id
     #             WHERE applications.status LIKE 'Pending'")
-    shelters = Shelter.joins(pets: [application_pets: [:application]])
-    shelters.uniq
+    shelters = Shelter.joins(pets: [application_pets: [:application]]).order(name: :asc).distinct
   end
 
   def pet_count

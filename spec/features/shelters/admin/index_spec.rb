@@ -33,13 +33,26 @@ it 'shelters with pending applications' do
     ApplicationPet.create!(application: application_2, pet: pet_4)
     
     visit "/admin/shelters"
-
+    
     expect(page).to have_content("Shelter's with Pending Applications")
     
     expect(page).to have_content(shelter_1.name, count: 4)
     expect(page).to have_content(shelter_2.name, count: 4)
     expect(page).to have_content(shelter_3.name, count: 3)
     expect(page).to have_content(shelter_4.name, count: 3)
+  end
+  
+  xit 'lists shelters with pending applications in alphabetical order' do 
+    shelter_1 = Shelter.create!(name: 'Dumb Friends League', city: 'Aurora, CO', foster_program: false, rank: 9)
+    shelter_2 = Shelter.create!(name: 'Hollywood Shelter', city: 'Irvine, CA', foster_program: false, rank: 7)
+    shelter_3 = Shelter.create!(name: 'EAPL', city: 'Evergreen, CO', foster_program: true, rank: 2)
+    shelter_4 = Shelter.create!(name: 'Arch City Adoptions', city: 'St. Louis, MO', foster_program: true, rank: 4)
+    
+    visit "/admin/shelters"
+
+    within("#pending") do 
+       expect(page).to have_content(shelter_1.name)
+    end 
   end
 
   
