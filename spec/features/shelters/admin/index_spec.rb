@@ -49,10 +49,27 @@ it 'shelters with pending applications' do
     shelter_4 = Shelter.create!(name: 'Arch City Adoptions', city: 'St. Louis, MO', foster_program: true, rank: 4)
     
     visit "/admin/shelters"
-
+    
     within("#pending") do 
-       expect(page).to have_content(shelter_1.name)
+      expect(page).to have_content(shelter_1.name)
     end 
+  end
+  
+  it 'every shelter name is a link to that show page' do 
+    shelter_1 = Shelter.create!(name: 'Dumb Friends League', city: 'Aurora, CO', foster_program: false, rank: 9)
+    shelter_2 = Shelter.create!(name: 'Hollywood Shelter', city: 'Irvine, CA', foster_program: false, rank: 7)
+    shelter_3 = Shelter.create!(name: 'EAPL', city: 'Evergreen, CO', foster_program: true, rank: 2)
+    shelter_4 = Shelter.create!(name: 'Arch City Adoptions', city: 'St. Louis, MO', foster_program: true, rank: 4)
+    
+    visit "/admin/shelters"
+    
+    expect(page).to have_link("Hollywood Shelter")
+    expect(page).to have_link("EAPL")
+    expect(page).to have_link("Dumb Friends League")
+    expect(page).to have_link("Arch City Adoptions")
+
+    click_link("Arch City Adoptions")
+    expect(current_path).to eq("/shelters/#{shelter_4.id}")
   end
 
   
