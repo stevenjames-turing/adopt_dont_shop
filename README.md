@@ -1,6 +1,9 @@
 # Adopt, don't Shop
 
-### Existing database design
+### New database design
+![database-design](https://user-images.githubusercontent.com/91357724/154330860-a503f47c-358a-42de-8083-fffce47f818d.png)
+
+### Original database design
 ![visual-schema.png](https://i.postimg.cc/0ywZgQ1W/visual-schema.png)
 
 ## Learning Goals
@@ -16,10 +19,6 @@ In this project, students will build upon the code in this repo to create a Pet 
 * Use `within` blocks in tests
 * Track user stories using GitHub Projects
 * Deploy an application to Heroku
-
-## Check In
-
-During your Check In, you should be prepared to review your database schema for the many to many relationship, your deployment to Heroku, and your GitHub Projects board.
 
 ## Rubric
 
@@ -45,7 +44,7 @@ During the evaluation, you will present your user story:
 ## Deploy
 
 ```
-[ ] done
+[x] done
 
 Deploy your application to Heroku
 
@@ -63,7 +62,7 @@ Use these guides: https://devcenter.heroku.com/articles/getting-started-with-rai
 Visitors to the site will be able to create applications to adopt pets. An application has many pets. Pets can have many applications.
 
 ```
-[ ] done
+[x] done
 
 Application Show Page
 
@@ -78,7 +77,7 @@ Then I can see the following:
 ```
 
 ```
-[ ] done
+[x] done
 
 Starting an Application
 
@@ -100,7 +99,7 @@ And I see an indicator that this application is "In Progress"
 ```
 
 ```
-[ ] done
+[x] done
 
 Starting an Application, Form not Completed
 
@@ -113,7 +112,7 @@ And I see a message that I must fill in those fields.
 ```
 
 ```
-[ ] done
+[x] done
 
 Searching for Pets for an Application
 
@@ -129,7 +128,7 @@ And under the search bar I see any Pet whose name matches my search
 ```
 
 ```
-[ ] done
+[x] done
 
 Add a Pet to an Application
 
@@ -144,7 +143,7 @@ And I see the Pet I want to adopt listed on this application
 ```
 
 ```
-[ ] done
+[x] done
 
 Submit an Application
 
@@ -162,7 +161,7 @@ And I do not see a section to add more pets to this application
 ```
 
 ```
-[ ] done
+[x] done
 
 No Pets on an Application
 
@@ -177,7 +176,7 @@ Then I do not see a section to submit my application
 These stories emphasize key database concepts
 
 ```
-[ ] done
+[x] done
 
 Partial Matches for Pet Names
 
@@ -189,7 +188,7 @@ For example, if I search for "fluff", my search would match pets with names "flu
 ```
 
 ```
-[ ] done
+[x] done
 
 Case Insensitive Matches for Pet Names
 
@@ -201,6 +200,8 @@ For example, if I search for "fluff", my search would match pets with names "Flu
 ```
 
 ```
+[x] done
+
 SQL Only Story
 
 For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries: https://guides.rubyonrails.org/active_record_querying.html#finding-by-sql
@@ -213,6 +214,8 @@ Then I see all Shelters in the system listed in reverse alphabetical order by na
 ```
 
 ```
+[x] done
+
 For this story, you should fully leverage ActiveRecord methods in your query.
 
 Shelters with Pending Applications
@@ -225,12 +228,14 @@ And in this section I see the name of every shelter that has a pending applicati
 
 ## Approving Applications
 
+[x] done
+
 Pets on an application can either be accepted or rejected.
 
 For this set of stories, we will be making routes that begin with '/admin'. This is to indicate that only a user with special privileges should be able to accept or reject pets on an application. Normally, we would want to make sure that a user is logged into an admin account before being able complete any of this workflow, but we will not add any log in or authorization functionality to this project.
 
 ```
-[ ] done
+[x] done
 
 Approving a Pet for Adoption
 
@@ -244,7 +249,7 @@ And instead I see an indicator next to the pet that they have been approved
 ```
 
 ```
-[ ] done
+[x] done
 
 Rejecting a Pet for Adoption
 
@@ -258,6 +263,8 @@ And instead I see an indicator next to the pet that they have been rejected
 ```
 
 ```
+[x] done
+
 Approved/Rejected Pets on one Application do not affect other Applications
 
 As a visitor
@@ -274,7 +281,7 @@ And instead I see buttons to approve or reject the pet for this specific applica
 Once all pets on an application have been marked either accepted or rejected, then the application is no longer "Pending". If all the pets were accepted, then the application is "Accepted". If one or more pets on the application is rejected, then the entire application is "Rejected".
 
 ```
-[ ] done
+[x] done
 
 All Pets Accepted on an Application
 
@@ -286,7 +293,7 @@ And I see the application's status has changed to "Approved"
 ```
 
 ```
-[ ] done
+[x] done
 
 One or More Pets Rejected on an Application
 
@@ -311,8 +318,6 @@ Then I see that those pets are no longer "adoptable"
 ```
 Pets can only have one approved application on them at any time
 
-[ ] done
-
 As a visitor
 When a pet has an "Approved" application on them
 And when the pet has a "Pending" application on them
@@ -331,6 +336,8 @@ SQL Only Story
 
 For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries: https://guides.rubyonrails.org/active_record_querying.html#finding-by-sql
 
+[x] done
+
 Admin Shelters Show Page
 
 As a visitor
@@ -345,6 +352,8 @@ NOTE: Your query should only return the necessary data to complete the story
 For the following stories, you should fully leverage ActiveRecord methods in your queries.
 
 ```
+[x] done
+
 Shelters with Pending Applications Listed Alphabetically
 
 As a visitor
@@ -354,6 +363,8 @@ Then I see all those shelters are listed alphabetically
 ```
 
 ```
+[x] done
+
 Admin Shelters Show Page Links
 
 As a visitor
