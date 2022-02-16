@@ -5,7 +5,7 @@ RSpec.describe 'the admin shelters show' do
     it 'shows shelter name and full address' do 
         shelter_3 = Shelter.create!(name: 'EAPL', city: 'Evergreen, CO', foster_program: true, rank: 2)
         shelter_4 = Shelter.create!(name: 'Arch City Adoptions', city: 'St. Louis, MO', foster_program: true, rank: 4)
-
+        
         visit "/admin/shelters/#{shelter_4.id}"
         
         expect(page).to have_content(shelter_4.name)
@@ -16,7 +16,8 @@ RSpec.describe 'the admin shelters show' do
         expect(page).to_not have_content(shelter_3.city)
     end
     
-    xit 'has average age of all adoptable pets' do 
+    it 'has average age of all adoptable pets' do 
+        shelter_3 = Shelter.create!(name: 'EAPL', city: 'Evergreen, CO', foster_program: true, rank: 2)
         shelter_4 = Shelter.create!(name: 'Arch City Adoptions', city: 'St. Louis, MO', foster_program: true, rank: 4)
         pet_10 = Pet.create!(adoptable: true, age: 8, breed: 'Chihuahua', name: 'Nacho', shelter_id: shelter_4.id)
         pet_11 = Pet.create!(adoptable: true, age: 9, breed: 'Dachsund', name: 'Busch', shelter_id: shelter_4.id)
@@ -29,6 +30,7 @@ RSpec.describe 'the admin shelters show' do
 
         expect(page).to have_content("Shelter Statistics")
         expect(page).to have_content("Average Age: #{shelter_4.pet_average_age}")
+        expect(page).to_not have_content("Average Age: #{shelter_3.pet_average_age}")
     end
 
 end 
