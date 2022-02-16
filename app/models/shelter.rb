@@ -23,6 +23,10 @@ class Shelter < ApplicationRecord
   def self.has_pending_applications
     shelters = Shelter.joins(pets: [application_pets: [:application]]).order(name: :asc).distinct
   end
+  
+  def self.name_and_city(params)
+    find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}")
+  end
 
   def pet_count
     pets.count
@@ -47,9 +51,5 @@ class Shelter < ApplicationRecord
   def pet_average_age
     total_age = pets.sum { |pet| pet.age }
     total_age.fdiv(pet_count).round(2)
-  end
-
-  def self.name_and_city(params)
-    find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}")
   end
 end
