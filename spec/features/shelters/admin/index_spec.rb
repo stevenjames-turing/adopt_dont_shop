@@ -42,16 +42,31 @@ it 'shelters with pending applications' do
     expect(page).to have_content(shelter_4.name, count: 3)
   end
   
-  xit 'lists shelters with pending applications in alphabetical order' do 
+  it 'lists shelters with pending applications in alphabetical order' do 
     shelter_1 = Shelter.create!(name: 'Dumb Friends League', city: 'Aurora, CO', foster_program: false, rank: 9)
     shelter_2 = Shelter.create!(name: 'Hollywood Shelter', city: 'Irvine, CA', foster_program: false, rank: 7)
     shelter_3 = Shelter.create!(name: 'EAPL', city: 'Evergreen, CO', foster_program: true, rank: 2)
     shelter_4 = Shelter.create!(name: 'Arch City Adoptions', city: 'St. Louis, MO', foster_program: true, rank: 4)
+    application_1 = Application.create(name: "Steve Rogers", street_address: "990 Logan St", city: "Denver", state: "CO", zip_code: "80203", status: "Pending")
+    application_2 = Application.create(name: "Bruce Banner", street_address: "16 Bay Oaks Ct", city: "Lake St. Louis", state: "MO", zip_code: "63367", status: "Pending")
+    pet_1 = Pet.create(adoptable: true, age: 1, breed: 'sphynx', name: 'George Hairlesson', shelter_id: shelter_1.id)
+    pet_2 = Pet.create(adoptable: true, age: 3, breed: 'GSD', name: 'Charlie', shelter_id: shelter_1.id)
+    pet_3 = Pet.create(adoptable: true, age: 3, breed: 'Whippet', name: 'Annabelle', shelter_id: shelter_1.id)
+    pet_4 = Pet.create(adoptable: false, age: 8, breed: 'Lab', name: 'Trek', shelter_id: shelter_2.id)
+    ApplicationPet.create!(application: application_1, pet: pet_1)
+    ApplicationPet.create!(application: application_1, pet: pet_2)
+    ApplicationPet.create!(application: application_1, pet: pet_3)
+    ApplicationPet.create!(application: application_2, pet: pet_3)
+    ApplicationPet.create!(application: application_2, pet: pet_4)
     
     visit "/admin/shelters"
     
     within("#pending") do 
       expect(page).to have_content(shelter_1.name)
+      expect(page).to have_content(shelter_2.name)
+      expect(page).to_not have_content(shelter_3.name)
+      expect(page).to_not have_content(shelter_4.name)
+      expect(shelter_1.name).to appear_before(shelter_2.name)
     end 
   end
   
@@ -63,14 +78,20 @@ it 'shelters with pending applications' do
     
     visit "/admin/shelters"
     
-    expect(page).to have_link("Hollywood Shelter")
-    expect(page).to have_link("EAPL")
-    expect(page).to have_link("Dumb Friends League")
-    expect(page).to have_link("Arch City Adoptions")
+    within("#all_shelters") do 
+      expect(page).to have_link("Hollywood Shelter")
+      expect(page).to have_link("EAPL")
+      expect(page).to have_link("Dumb Friends League")
+      expect(page).to have_link("Arch City Adoptions")
+      click_link("Arch City Adoptions")
+      expect(current_path).to eq("/shelters/#{shelter_4.id}")
+    end
 
-    click_link("Arch City Adoptions")
-    expect(current_path).to eq("/shelters/#{shelter_4.id}")
+    visit "/admin/shelters"
+    
+    within("#all_shelters") do 
+      click_link("EAPL")
+      expect(current_path).to eq("/shelters/#{shelter_3.id}")
+    end
   end
-
-  
 end 

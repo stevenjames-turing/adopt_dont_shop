@@ -21,12 +21,6 @@ class Shelter < ApplicationRecord
   end
 
   def self.has_pending_applications
-    # shelters = find_by_sql("SELECT shelters.*
-    #             FROM shelters
-    #             JOIN pets ON pets.shelter_id = shelters.id
-    #             JOIN application_pets ON pets.id = application_pets.pet_id
-    #             JOIN applications ON application_id = applications.id
-    #             WHERE applications.status LIKE 'Pending'")
     shelters = Shelter.joins(pets: [application_pets: [:application]]).order(name: :asc).distinct
   end
 
@@ -38,11 +32,24 @@ class Shelter < ApplicationRecord
     pets.where(adoptable: true)
   end
 
+  def adopted_pets
+    pets.where(adoptable: false)
+  end
+
   def alphabetical_pets
     adoptable_pets.order(name: :asc)
   end
 
   def shelter_pets_filtered_by_age(age_filter)
     adoptable_pets.where('age >= ?', age_filter)
+  end
+
+  def pet_average_age
+    total_age = pets.sum { |pet| pet.age }
+    total_age.fdiv(pet_count).round(2)
+  end
+
+  def self.name_and_city(params)
+    find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}")
   end
 end

@@ -1,4 +1,4 @@
-<section>
+<section id="all_shelters">
 <h1>All Shelters</h1>
 
 <%= link_to "Sort by number of pets", "/shelters?sort=pet_count" %>
@@ -19,7 +19,7 @@
 <% end %>
 </section>
 <br>
-<section class="pending">
+<section id="pending">
 <h1>Shelter's with Pending Applications</h1>
 <% Shelter.has_pending_applications.each do |shelter| %>
     <%= link_to "#{shelter.name}", "/shelters/#{shelter.id}"%> <br>
