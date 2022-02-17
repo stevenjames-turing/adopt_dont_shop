@@ -375,6 +375,8 @@ Then I am taken to that shelter's admin show page
 ```
 
 ```
+[x] done
+
 Average Pet Age
 
 As a visitor
@@ -384,6 +386,8 @@ And in that section I see the average age of all adoptable pets for that shelter
 ```
 
 ```
+[x] done
+
 Count of Adoptable Pets
 
 As a visitor
@@ -393,6 +397,8 @@ And in that section I see the number of pets at that shelter that are adoptable
 ```
 
 ```
+[x] done
+
 Count of Pets that have been Adopted
 
 As a visitor
